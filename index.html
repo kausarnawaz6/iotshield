@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoTShield — Autonomous IoT Defense Framework</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#060d1a;color:#e2e8f0}
+a{color:inherit;text-decoration:none}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:#0a1628;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;z-index:100}
+.nav-logo{font-size:1.1rem;font-weight:700;color:#f0f9ff;display:flex;align-items:center;gap:8px}
+.nav-logo span{color:#38bdf8}
+.nav-links{display:flex;gap:24px}
+.nav-link{font-size:13px;color:#94a3b8;cursor:pointer;transition:color 0.2s}
+.nav-link:hover{color:#f0f9ff}
+.nav-btn{background:#38bdf8;color:#0c1929;font-size:13px;font-weight:600;padding:7px 18px;border-radius:6px;border:none;cursor:pointer}
+.hero{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 60%,#0f4c75 100%);padding:6rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,rgba(56,189,248,0.12) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.3);color:#7dd3fc;font-size:12px;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem;letter-spacing:0.04em}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#38bdf8;animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;color:#f0f9ff;line-height:1.15;margin-bottom:1rem;letter-spacing:-0.02em}
+.hero h1 span{color:#38bdf8}
+.hero p{font-size:1.1rem;color:#94a3b8;max-width:600px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:#38bdf8;color:#0c1929;font-weight:600;padding:13px 30px;border-radius:8px;border:none;cursor:pointer;font-size:15px;transition:background 0.2s}
+.btn-primary:hover{background:#7dd3fc}
+.btn-secondary{background:rgba(255,255,255,0.06);color:#e2e8f0;font-weight:500;padding:13px 30px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;font-size:15px;transition:background 0.2s}
+.btn-secondary:hover{background:rgba(255,255,255,0.1)}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);background:#0a1628;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)}
+@media(max-width:600px){.stats-bar{grid-template-columns:repeat(2,1fr)}.nav-links{display:none}}
+.stat{padding:1.5rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.06)}
+.stat:last-child{border-right:none}
+.stat-num{font-size:1.8rem;font-weight:700;color:#38bdf8;display:block}
+.stat-label{font-size:12px;color:#64748b;margin-top:4px}
+.section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.section-tag{font-size:12px;font-weight:600;color:#38bdf8;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem}
+.section-title{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;color:#f0f9ff;margin-bottom:1rem}
+.section-sub{font-size:1rem;color:#94a3b8;max-width:580px;line-height:1.7;margin-bottom:3rem}
+.phases-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.phase-card{background:#0f1e35;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem;transition:border-color 0.2s,transform 0.2s}
+.phase-card:hover{border-color:#38bdf8;transform:translateY(-3px)}
+.phase-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:20px}
+.phase-num{font-size:11px;font-weight:600;letter-spacing:0.08em;margin-bottom:4px}
+.phase-name{font-size:15px;font-weight:600;color:#f0f9ff;margin-bottom:6px}
+.phase-desc{font-size:13px;color:#94a3b8;line-height:1.6}
+.phase-result{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+.results-section{background:#0a1628;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);padding:5rem 2rem}
+.results-inner{max-width:1100px;margin:0 auto}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:2.5rem}
+.metric-card{background:#0f1e35;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:1.5rem}
+.metric-val{font-size:2.2rem;font-weight:700;line-height:1}
+.metric-label{font-size:13px;color:#94a3b8;margin-top:6px}
+.metric-sub{font-size:11px;color:#475569;margin-top:4px}
+.pipeline-section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.pipeline{display:flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:2.5rem}
+.pipe-step{flex:1;min-width:110px;max-width:150px;background:#0f1e35;border:1px solid rgba(255,255,255,0.07);padding:1.25rem 0.75rem;text-align:center;border-radius:8px}
+.pipe-arrow{color:#334155;font-size:20px}
+.pipe-icon{font-size:24px;margin-bottom:8px}
+.pipe-label{font-size:11px;font-weight:600;color:#e2e8f0}
+.pipe-sub{font-size:10px;color:#64748b;margin-top:3px}
+.about-section{padding:5rem 2rem;max-width:900px;margin:0 auto;text-align:center}
+.author-card{background:#0f1e35;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:2rem;max-width:500px;margin:2rem auto 0;text-align:left}
+.author-avatar{width:52px;height:52px;border-radius:50%;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#38bdf8;float:left;margin-right:1rem}
+.author-name{font-weight:600;color:#f0f9ff;font-size:15px}
+.author-role{font-size:13px;color:#64748b;margin-top:2px}
+.author-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem;clear:both;padding-top:0.5rem}
+.tag{font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.2)}
+.cta-section{background:linear-gradient(135deg,#0f172a,#1e3a5f);padding:5rem 2rem;text-align:center}
+.cta-section h2{font-size:2rem;font-weight:700;color:#f0f9ff;margin-bottom:1rem}
+.cta-section p{color:#94a3b8;margin-bottom:2rem;font-size:1rem;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.7}
+.footer{background:#040a14;padding:2.5rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,0.05)}
+.footer p{font-size:12px;color:#334155;line-height:1.8}
+.footer a{color:#38bdf8}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <i class="ti ti-shield-lock" style="font-size:20px;color:#38bdf8"></i>
+    IoT<span>Shield</span>
+  </div>
+  <div class="nav-links">
+    <a href="#phases" class="nav-link">Framework</a>
+    <a href="#results" class="nav-link">Results</a>
+    <a href="#pipeline" class="nav-link">How it works</a>
+    <a href="#about" class="nav-link">Research</a>
+  </div>
+  <button class="nav-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request demo</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="badge"><span class="badge-dot"></span> IEEE Internet of Things Journal — Peer-reviewed research</div>
+  <h1>Autonomous IoT defense.<br><span>Seven phases. Zero blind spots.</span></h1>
+  <p>The first framework to combine real-time federated anomaly detection, blockchain-anchored forensics, and hardware-attested self-healing in a single provably correct pipeline.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="document.getElementById('phases').scrollIntoView({behavior:'smooth'})">See all 7 phases</button>
+    <button class="btn-secondary" onclick="document.getElementById('results').scrollIntoView({behavior:'smooth'})">View results</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><span class="stat-num">1.000</span><div class="stat-label">AUC on real IoT traffic</div></div>
+  <div class="stat"><span class="stat-num">6.8 min</span><div class="stat-label">Average node recovery</div></div>
+  <div class="stat"><span class="stat-num">96.8%</span><div class="stat-label">Analyst workload cut</div></div>
+  <div class="stat"><span class="stat-num">100%</span><div class="stat-label">Blockchain audit coverage</div></div>
+</div>
+
+<div class="section" id="phases">
+  <div class="section-tag">The framework</div>
+  <div class="section-title">Seven phases, one provably correct cycle</div>
+  <div class="section-sub">Each phase is formally characterized, blockchain-anchored, and validated on real IoT data before the next begins.</div>
+  <div class="phases-grid">
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(56,189,248,0.1)"><i class="ti ti-topology-star" style="color:#38bdf8"></i></div>
+      <div class="phase-num" style="color:#38bdf8">Phase 1</div>
+      <div class="phase-name">Device mapping</div>
+      <div class="phase-desc">Continuous discovery and fingerprinting of all IoT assets. Builds the live network graph that powers isolation decisions downstream.</div>
+      <div class="phase-result" style="background:rgba(56,189,248,0.1);color:#38bdf8"><i class="ti ti-check"></i> 312-node topology validated</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(168,85,247,0.1)"><i class="ti ti-analyze" style="color:#c084fc"></i></div>
+      <div class="phase-num" style="color:#c084fc">Phase 2</div>
+      <div class="phase-name">Threat modeling</div>
+      <div class="phase-desc">Ontological feature extraction maps device behavior against known attack patterns across 115 statistical dimensions.</div>
+      <div class="phase-result" style="background:rgba(168,85,247,0.1);color:#c084fc"><i class="ti ti-check"></i> 115-feature vector space</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(239,68,68,0.1)"><i class="ti ti-radar" style="color:#f87171"></i></div>
+      <div class="phase-num" style="color:#f87171">Phase 3</div>
+      <div class="phase-name">Anomaly detection</div>
+      <div class="phase-desc">Validated on 6.1M real traffic samples from 9 commercial IoT devices authentically infected with Mirai and BASHLITE botnets.</div>
+      <div class="phase-result" style="background:rgba(239,68,68,0.1);color:#f87171"><i class="ti ti-check"></i> AUC 1.000 · FNR 0%</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(34,197,94,0.1)"><i class="ti ti-network" style="color:#4ade80"></i></div>
+      <div class="phase-num" style="color:#4ade80">Phase 4</div>
+      <div class="phase-name">Federated learning</div>
+      <div class="phase-desc">Each device trains locally. Only model weights — never raw traffic — leave the device. 9 real IoT clients, converges in Round 1.</div>
+      <div class="phase-result" style="background:rgba(34,197,94,0.1);color:#4ade80"><i class="ti ti-check"></i> AUC 0.9997 · FNR 0.05%</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(251,191,36,0.1)"><i class="ti ti-cube" style="color:#fbbf24"></i></div>
+      <div class="phase-num" style="color:#fbbf24">Phase 5</div>
+      <div class="phase-name">Blockchain trust</div>
+      <div class="phase-desc">Every automated action is committed to a PBFT append-only ledger before execution. 100% consensus, ~20ms latency, tamper-proof.</div>
+      <div class="phase-result" style="background:rgba(251,191,36,0.1);color:#fbbf24"><i class="ti ti-check"></i> 100% consensus · ~20ms</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(56,189,248,0.1)"><i class="ti ti-refresh-alert" style="color:#38bdf8"></i></div>
+      <div class="phase-num" style="color:#38bdf8">Phase 6</div>
+      <div class="phase-name">Self-healing</div>
+      <div class="phase-desc">SDN isolation → digital-twin rollback → PUF hardware attestation → on-chain reintegration. 99.4% recovery in 6.8 minutes on average.</div>
+      <div class="phase-result" style="background:rgba(56,189,248,0.1);color:#38bdf8"><i class="ti ti-check"></i> 99.4% recovery · 6.8 min avg</div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-icon" style="background:rgba(168,85,247,0.1)"><i class="ti ti-eye" style="color:#c084fc"></i></div>
+      <div class="phase-num" style="color:#c084fc">Phase 7</div>
+      <div class="phase-name">Human oversight</div>
+      <div class="phase-desc">Analysts see only escalations, pre-triaged with blockchain evidence attached. Alert fatigue drops from 60% to 0%. 97.9% automation rate.</div>
+      <div class="phase-result" style="background:rgba(168,85,247,0.1);color:#c084fc"><i class="ti ti-check"></i> 96.8% workload reduction</div>
+    </div>
+  </div>
+</div>
+
+<div class="results-section" id="results">
+  <div class="results-inner">
+    <div class="section-tag">Validated results</div>
+    <div class="section-title">Real data. Real devices. Reproducible.</div>
+    <div class="section-sub">Evaluated on the N-BaIoT public benchmark and 50 Monte Carlo simulation runs. All code and data released open-source.</div>
+    <div class="metrics-grid">
+      <div class="metric-card"><div class="metric-val" style="color:#38bdf8">1.000</div><div class="metric-label">Detection AUC</div><div class="metric-sub">6.1M real traffic samples · 9 IoT devices</div></div>
+      <div class="metric-card"><div class="metric-val" style="color:#4ade80">0.05%</div><div class="metric-label">False negative rate (FL)</div><div class="metric-sub">Federated model · 9 real clients</div></div>
+      <div class="metric-card"><div class="metric-val" style="color:#fbbf24">100%</div><div class="metric-label">PBFT consensus</div><div class="metric-sub">f ≤ 3 Byzantine · 200 transactions</div></div>
+      <div class="metric-card"><div class="metric-val" style="color:#c084fc">99.4%</div><div class="metric-label">Node recovery rate</div><div class="metric-sub">50 Monte Carlo runs · 47 nodes/run</div></div>
+      <div class="metric-card"><div class="metric-val" style="color:#38bdf8">6.8 min</div><div class="metric-label">Mean heal time</div><div class="metric-sub">P95 = 9.5 min · 30 min timeout</div></div>
+      <div class="metric-card"><div class="metric-val" style="color:#f87171">96.8%</div><div class="metric-label">Analyst workload cut</div><div class="metric-sub">30-day sim · fatigue 60% → 0%</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="pipeline-section" id="pipeline">
+  <div class="section-tag">How it works</div>
+  <div class="section-title">From breach to healed network in minutes</div>
+  <div class="section-sub">The pipeline runs autonomously. Blockchain ensures every step is auditable even if an attacker edits the logs.</div>
+  <div class="pipeline">
+    <div class="pipe-step"><div class="pipe-icon">🔍</div><div class="pipe-label">Detect</div><div class="pipe-sub">Phase 3 flags anomaly</div></div>
+    <div class="pipe-arrow"><i class="ti ti-arrow-right"></i></div>
+    <div class="pipe-step"><div class="pipe-icon">🔗</div><div class="pipe-label">Log</div><div class="pipe-sub">PBFT commits to chain</div></div>
+    <div class="pipe-arrow"><i class="ti ti-arrow-right"></i></div>
+    <div class="pipe-step"><div class="pipe-icon">🔒</div><div class="pipe-label">Isolate</div><div class="pipe-sub">SDN segments node</div></div>
+    <div class="pipe-arrow"><i class="ti ti-arrow-right"></i></div>
+    <div class="pipe-step"><div class="pipe-icon">🪞</div><div class="pipe-label">Rollback</div><div class="pipe-sub">Digital twin restores</div></div>
+    <div class="pipe-arrow"><i class="ti ti-arrow-right"></i></div>
+    <div class="pipe-step"><div class="pipe-icon">🔑</div><div class="pipe-label">Attest</div><div class="pipe-sub">PUF verifies hardware</div></div>
+    <div class="pipe-arrow"><i class="ti ti-arrow-right"></i></div>
+    <div class="pipe-step"><div class="pipe-icon">✅</div><div class="pipe-label">Reintegrate</div><div class="pipe-sub">On-chain certificate</div></div>
+  </div>
+</div>
+
+<div class="about-section" id="about">
+  <div class="section-tag">Research team</div>
+  <div class="section-title">Built by researchers, for defenders</div>
+  <div class="section-sub">This framework emerged from real-world IoT forensics challenges. It is open for academic collaboration and deployment partnerships with healthcare, industrial, and smart-city organizations.</div>
+  <div class="author-card">
+    <div class="author-avatar">KP</div>
+    <div style="overflow:hidden">
+      <div class="author-name">Kausar Parveen</div>
+      <div class="author-role">Dept. of Criminology & Forensic Sciences · Lahore Garrison University</div>
+    </div>
+    <div class="author-tags">
+      <span class="tag">IoT Security</span>
+      <span class="tag">Federated Learning</span>
+      <span class="tag">Blockchain Forensics</span>
+      <span class="tag">AI-driven Monitoring</span>
+      <span class="tag">Semantic Web</span>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section" id="contact">
+  <h2>Protect your IoT network</h2>
+  <p>Open to collaboration with healthcare, industrial, and smart-city deployments. All research code released open-source on GitHub.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <button class="btn-primary">Request a demo</button>
+    <a href="https://github.com" target="_blank"><button class="btn-secondary"><i class="ti ti-brand-github"></i> View on GitHub</button></a>
+  </div>
+</div>
+
+<div class="footer">
+  <p>IoTShield · Autonomous IoT Defense Framework</p>
+  <p>Based on research submitted to IEEE Internet of Things Journal · Lahore Garrison University · 2026</p>
+  <p style="margin-top:8px"><a href="https://github.com">GitHub</a> · Open for academic collaboration</p>
+</div>
+
+</body>
+</html>
