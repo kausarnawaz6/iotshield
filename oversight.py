@@ -124,6 +124,175 @@ PANEL_BG = "#161b22"
 TEXT     = "#e6edf3"
 GRID     = "#30363d"
 
+# Complete style function
 def style_ax(ax, title):
     ax.set_facecolor(PANEL_BG)
     ax.tick_params(colors=TEXT, labelsize=8)
+    ax.set_title(title, color=TEXT, fontsize=11, weight="bold")
+    for spine in ax.spines.values():
+        spine.set_color(GRID)
+    ax.grid(True, color=GRID, alpha=0.3)
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 1 : Analyst Workload
+# ───────────────────────────────────────────────────────────────
+ax1 = fig.add_subplot(gs[0,0])
+style_ax(ax1, "Daily Analyst Workload")
+
+ax1.plot(days, traditional_workload,
+         color=TRAD_COL, lw=2.5,
+         label="Traditional")
+
+ax1.plot(days, framework_workload,
+         color=FW_COL, lw=2.5,
+         label="Framework")
+
+ax1.set_xlabel("Day", color=TEXT)
+ax1.set_ylabel("Events", color=TEXT)
+ax1.legend()
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 2 : Response Time
+# ───────────────────────────────────────────────────────────────
+ax2 = fig.add_subplot(gs[0,1])
+style_ax(ax2, "Response Time")
+
+x = np.arange(2)
+
+ax2.bar(
+    x,
+    [avg_trad_resp, avg_fw_resp],
+    color=[TRAD_COL, FW_COL],
+    width=0.5
+)
+
+ax2.set_xticks(x)
+ax2.set_xticklabels(
+    ["Traditional","Framework"],
+    color=TEXT
+)
+ax2.set_ylabel("Minutes", color=TEXT)
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 3 : Alert Fatigue
+# ───────────────────────────────────────────────────────────────
+ax3 = fig.add_subplot(gs[0,2])
+style_ax(ax3, "Alert Fatigue")
+
+ax3.plot(days,
+         traditional_fatigue,
+         color=TRAD_COL,
+         lw=2)
+
+ax3.plot(days,
+         framework_fatigue,
+         color=FW_COL,
+         lw=2)
+
+ax3.set_xlabel("Day", color=TEXT)
+ax3.set_ylabel("%", color=TEXT)
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 4 : Automation Rate
+# ───────────────────────────────────────────────────────────────
+ax4 = fig.add_subplot(gs[1,0])
+style_ax(ax4, "Automation Rate")
+
+ax4.plot(days,
+         framework_auto_rate,
+         color=GOLD,
+         lw=3)
+
+ax4.set_ylim(90,100)
+ax4.set_xlabel("Day", color=TEXT)
+ax4.set_ylabel("%", color=TEXT)
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 5 : Blockchain Audit Coverage
+# ───────────────────────────────────────────────────────────────
+ax5 = fig.add_subplot(gs[1,1])
+style_ax(ax5, "Blockchain Audit Coverage")
+
+ax5.bar(
+    ["Traditional","Framework"],
+    [0,100],
+    color=[TRAD_COL,BLUE]
+)
+
+ax5.set_ylim(0,110)
+ax5.set_ylabel("%", color=TEXT)
+
+# ───────────────────────────────────────────────────────────────
+# PANEL 6 : Summary
+# ───────────────────────────────────────────────────────────────
+ax6 = fig.add_subplot(gs[:,2])
+ax6.set_facecolor(PANEL_BG)
+ax6.axis("off")
+
+summary = f"""
+PHASE 7 SUMMARY
+
+Workload Reduction
+{workload_reduction:.1f} %
+
+Response Improvement
+{resp_improvement:.1f} %
+
+Automation
+{avg_auto_rate:.1f} %
+
+Audit Coverage
+{avg_audit:.1f} %
+
+Alert Fatigue
+{avg_trad_fatigue:.1f}% → {avg_fw_fatigue:.1f}%
+
+False Escalation
+≈2%
+
+Blockchain Logged
+YES
+
+Human Oversight
+YES
+"""
+
+ax6.text(
+    0.02,
+    0.98,
+    summary,
+    va="top",
+    fontsize=12,
+    color=TEXT,
+    family="monospace",
+    bbox=dict(
+        facecolor="#22272e",
+        edgecolor=FW_COL,
+        boxstyle="round,pad=0.6"
+    )
+)
+
+# ───────────────────────────────────────────────────────────────
+# TITLE
+# ───────────────────────────────────────────────────────────────
+fig.suptitle(
+    "Phase 7 — Human Oversight Dashboard",
+    fontsize=18,
+    color="white",
+    weight="bold"
+)
+
+# ───────────────────────────────────────────────────────────────
+# SAVE
+# ───────────────────────────────────────────────────────────────
+plt.tight_layout(rect=[0,0,1,0.96])
+
+plt.savefig(
+    SAVE_PATH,
+    dpi=300,
+    bbox_inches="tight"
+)
+
+print(f"\nFigure saved successfully:\n{SAVE_PATH}")
+
+plt.show()
